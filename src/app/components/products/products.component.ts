@@ -26,11 +26,11 @@ export class ProductsComponent implements OnInit {
 
       if(this.productService.isNew){
         this.productService.isNew = false;
-        index = this.products.length-1;
+        index = this.products.length - 1;
       }
 
       if (!this.currentProduct){
-        this.loadProduct(this.products[0], index);
+        this.loadProduct(this.products[index], index);
       }
     });
   }
