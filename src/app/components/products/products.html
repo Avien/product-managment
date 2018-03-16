@@ -1,0 +1,26 @@
+<div class="products">
+  <div class="toolbar">
+    <button (click)="add()">+Add</button>
+    <span>Sort by:</span>
+    <select #sortElm (change)="sort($event.target.value, sortDirection.value === 'descending')">
+      <option [value]="'name'">Name</option>
+      <option [value]="'created_on'">Date</option>
+    </select>
+
+    <select #sortDirection (change)="sort(sortElm.value, $event.target.value === 'descending')">
+      <option [value]="'ascending'">Ascending</option>
+      <option [value]="'descending'">Descending</option>
+    </select>
+  </div>
+  <ul>
+    <li *ngFor="let product of products;  let i = index"
+        (click)="loadProduct(product, i)"
+        [class.active]="activeIndex==i">
+         <i class="icon default {{product.name}}"></i>
+         <div class="title">{{product.name}}</div>
+         <div class="desc">{{product.description}}</div>
+         <button (click)="delete(product, i)">Delete</button>
+    </li>
+  </ul>
+</div>
+<router-outlet></router-outlet>

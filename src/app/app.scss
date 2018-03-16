@@ -1,0 +1,24 @@
+@import "../colors";
+:host ::ng-deep .app{
+
+  //width: 1000px;
+  margin: 0 auto;
+  /*display:table;*/
+  position:relative;
+
+  //div.inline{
+  //  //display: inline-table;
+  //}
+
+  h3{
+    padding: 10px 10px;
+    margin: 0;
+    background-color: $active;
+    border-bottom: 1px solid;
+    padding-left: 40px;
+  }
+
+}
+
+
+

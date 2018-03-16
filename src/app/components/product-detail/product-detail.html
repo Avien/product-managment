@@ -1,0 +1,30 @@
+<div class="product-detail">
+  <i class="icon large {{product.name}}"></i>
+  <form #productDetailsForm="ngForm">
+    <div>
+      <span>Name</span>
+      <div> <input [(ngModel)]="product.name" name="name" required></div>
+    </div>
+    <div>
+      <span>Description</span>
+      <div> <input [(ngModel)]="product.description" name="desc" required></div>
+    </div>
+    <div>
+      <span>Price</span>
+      <div> <input [pattern]="'[0-9]{1,7}'"
+                   [(ngModel)]="product.price"
+                   name="price"
+                   #name="ngModel"
+                   required>$</div>
+      <div *ngIf="name.errors?.pattern">
+        value is not valid.
+      </div>
+    </div>
+
+    <div>
+      <button (click)="save()"
+              [disabled]="!productDetailsForm.form.valid"
+              [ngClass]="{disabled: !productDetailsForm.form.valid}">Save</button>
+    </div>
+  </form>
+</div>
