@@ -32,7 +32,7 @@ export let productsData: Product[] = [
   {
     id: 5,
     name: 'Product E',
-    description: 'Blah blah blah Product E',
+    description: 'A band from New Zealand',
     price: 300,
     created_on: '2018-02-25T15:35:20'
   }
