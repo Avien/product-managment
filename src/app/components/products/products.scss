@@ -2,13 +2,13 @@
 
 .products{
 
-  width:600px;
+  width: 530px;
   height: 600px;
   overflow: hidden;
   display:inline-block;
 
   .toolbar{
-    margin-top: 10px;
+    margin-top: 18px;
     margin-left: 40px;
     font-size: 14px;
 
@@ -19,11 +19,11 @@
 
   ul{
     list-style: none;
-    height: 360px;
+    height: 450px;
     overflow: auto;
 
     li{
-      width: 85%;
+      width: 476px;
       margin-bottom: 10px;
       height: 70px;
       border: 1px solid;
@@ -54,7 +54,7 @@
 
       i{
         float: left;
-        margin: 12px;
+        margin: 7px 12px;
       }
 
       .title{

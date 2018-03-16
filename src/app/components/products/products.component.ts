@@ -36,6 +36,7 @@ export class ProductsComponent implements OnInit {
   }
 
   loadProduct(product: Product, index: number = 0){
+    this.productService.isNew = false;
     if (product){
       this.activeIndex = index;
       this.currentProduct = product;
