@@ -5,21 +5,26 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Subject} from 'rxjs/Subject';
 
 @Injectable()
 export class ProductService {
 
-  products$: Observable<Product[]>;
   private products = productsData;
+  products$: Observable<Product[]>;
   private productsSource: BehaviorSubject<Product[]> = new BehaviorSubject(this.products);
+  product$: Observable<Product>;
+  private productSource: Subject<Product> = new Subject();
   private _isNew: boolean = false;
 
   constructor() {
     this.products$ = this.productsSource.asObservable();
+    this.product$ = this.productSource.asObservable();
   }
 
   getProduct(id: number): Product {
     if(this.isNew) {
+      this.isNew = false;
       return new Product(id);
     }
     const product = this.products.find(product => product.id === id);
@@ -27,7 +32,7 @@ export class ProductService {
   }
 
   save(product: Product){
-    const index = this.products.findIndex(item => product.id === item.id);
+    const index = this.getIndex(product);
 
     if (index !== -1){
         this.products[index] = product;
@@ -50,8 +55,16 @@ export class ProductService {
     this.productsSource.next(this.products);
   }
 
+  sendProduct(product: Product){
+    this.productSource.next(product);
+  }
+
   generateId(){
     return Math.round(Math.random() * 1000000);
+  }
+
+  getIndex(product: Product){
+    return this.products.findIndex(item => product.id === item.id);
   }
 
   set isNew(value: boolean){

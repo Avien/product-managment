@@ -9,6 +9,7 @@ const routes: Routes = [
     path: 'products',
     component: ProductsComponent,
     children: [
+      { path: '', redirectTo: '1', pathMatch: 'full' },
       { path: ':id', component: ProductDetailComponent },
     ]
   }

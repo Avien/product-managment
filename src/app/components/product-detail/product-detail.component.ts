@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Product} from '../../shared/product.model';
 import {ProductService} from '../../services/product.service';
@@ -7,7 +7,7 @@ import {ProductService} from '../../services/product.service';
   selector: 'app-product-detail',
   templateUrl: './product-detail.html',
   styleUrls: ['./product-detail.scss'],
-  //changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 
 })
 export class ProductDetailComponent implements OnInit {
@@ -15,6 +15,7 @@ export class ProductDetailComponent implements OnInit {
   product: Product = new Product();
 
   constructor(private route: ActivatedRoute,
+              private cdr: ChangeDetectorRef,
               private productService: ProductService) { }
 
   ngOnInit() {
@@ -33,5 +34,7 @@ export class ProductDetailComponent implements OnInit {
 
   private getProduct(id: number){
     this.product = this.productService.getProduct(id);
+    this.productService.sendProduct(this.product);
+    this.cdr.detectChanges();
   }
 }

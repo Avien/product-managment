@@ -1,5 +1,5 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Product} from '../../shared/product.model';
 import {ProductService} from '../../services/product.service';
 
@@ -13,33 +13,29 @@ export class ProductsComponent implements OnInit {
 
   products: Product[];
   activeIndex: number;
-  private currentProduct: Product;
+  private selectedProduct: Product;
 
   constructor(private router: Router,
+              private route: ActivatedRoute,
+              private cdr: ChangeDetectorRef,
               private productService: ProductService) { }
 
   ngOnInit() {
+
     this.productService.products$.subscribe((products: Product[]) => {
       this.products = products;
+    });
 
-      let index = 0;
-
-      if(this.productService.isNew){
-        this.productService.isNew = false;
-        index = this.products.length - 1;
-      }
-
-      if (!this.currentProduct){
-        this.loadProduct(this.products[index], index);
-      }
+    this.productService.product$.subscribe((product: Product) => {
+       const index = this.productService.getIndex(product);
+       this.setSelectedProduct(this.products[index], index);
+       this.cdr.detectChanges();
     });
   }
 
   loadProduct(product: Product, index: number = 0){
-    this.productService.isNew = false;
     if (product){
-      this.activeIndex = index;
-      this.currentProduct = product;
+      this.setSelectedProduct(product, index);
       this.router.navigate(['products', product.id]);
     }
   }
@@ -51,13 +47,13 @@ export class ProductsComponent implements OnInit {
       this.activeIndex -= 1;
     }
 
-    if (this.currentProduct.id === product.id){
-      this.loadProduct(this.products[0]);
+    if (this.selectedProduct.id === product.id){
+        this.loadProduct(this.products[0]);
     }
   }
 
   add() {
-    this.currentProduct = null;
+    this.selectedProduct = null;
     this.productService.isNew = true;
     this.activeIndex = -1;
     this.router.navigate(['products', this.productService.generateId()]);
@@ -74,7 +70,11 @@ export class ProductsComponent implements OnInit {
       return 0;
     });
 
-    this.activeIndex = this.products.findIndex(item => this.currentProduct.id === item.id);
+    this.activeIndex = this.productService.getIndex(this.selectedProduct);
   }
 
+  private setSelectedProduct(product: Product, index: number = 0){
+    this.activeIndex = index;
+    this.selectedProduct = product;
+  }
 }
