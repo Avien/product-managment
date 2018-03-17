@@ -1,6 +1,7 @@
 <div class="products">
   <div class="toolbar">
     <button (click)="add()">+Add</button>
+    <input type="text" class="search-text" [(ngModel)]="searchString" id="search" placeholder="Search product name">
     <span>Sort by:</span>
     <select #sortElm (change)="sort($event.target.value, sortDirection.value === 'descending')">
       <option [value]="'name'">Name</option>
@@ -13,7 +14,7 @@
     </select>
   </div>
   <ul>
-    <li *ngFor="let product of products;  let i = index"
+    <li *ngFor="let product of products | search:searchString;  let i = index"
         (click)="loadProduct(product, i)"
         [class.active]="activeIndex==i">
          <i class="icon default {{product.name}}"></i>
