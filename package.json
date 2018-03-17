@@ -9,7 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "publish": "ng test && ng build --prod --base  ./  && angular-cli-ghpages"
+    "publish": "ng test --watch=false && ng build --prod --base  ./  && angular-cli-ghpages"
   },
   "private": true,
   "dependencies": {
